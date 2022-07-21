@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import LoginPage from '@/views/LoginPage.vue';
-import SignupPage from '@/views/SignupPage.vue';
+// import LoginPage from '@/views/LoginPage.vue';
+// import SignupPage from '@/views/SignupPage.vue';
 
 //플러그인을 실행하기위해서 초기화하기위해서 필요한 코드
 Vue.use(VueRouter);
@@ -12,11 +12,12 @@ export default new VueRouter({
   routes: [
     {
       path: '/login',
-      component: LoginPage,
+      // component: LoginPage, "코드스플리팅"
+      component: () => import('@/views/LoginPage.vue'),
     },
     {
       path: '/signup',
-      component: SignupPage,
+      component: () => import('@/views/SignupPage.vue'),
     },
   ],
 });
