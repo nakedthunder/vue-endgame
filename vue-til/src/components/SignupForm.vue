@@ -13,7 +13,8 @@
       <input id="nickname" type="text" v-model="nickname" />
     </div>
     <!-- submit 이벤트 -->
-    <button type="submit">login</button>
+    <button type="submit">회원 가입</button>
+    <p>{{ logMessage }}</p>
   </form>
 </template>
 
@@ -22,14 +23,16 @@ import { registerUser } from '@/api/index';
 export default {
   data() {
     return {
-      //key:value
+      //form value
       username: '',
       password: '',
       nickname: '',
+      //log
+      logMessage: '',
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       console.log('폼 제출');
       //userData객체를 넘겨줌
       const userData = {
@@ -37,7 +40,18 @@ export default {
         password: this.password,
         nickname: this.nickname,
       };
-      registerUser(userData);
+      //registerUser(userData);
+      const { data } = await registerUser(userData);
+      console.log(data.username);
+      //로그메세지 + ES6 백틱
+      this.logMesage = `${data.username}님이 가입되었습니다.`;
+      this.initForm();
+    },
+    initForm() {
+      //타입이 없으므로 null도 가능하지만 견고한건 null
+      this.username = '';
+      this.password = '';
+      this.nickname = '';
     },
   },
 };
