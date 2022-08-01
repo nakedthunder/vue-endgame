@@ -9,11 +9,11 @@
       <input type="text" id="password" v-model="password" />
     </div>
     <button type="submit">로그인</button>
+    <p>{{ logMessage }}</p>
   </form>
 </template>
 
 <script>
-import axios from 'axios';
 import { loginUser } from '@/api/index';
 export default {
   data() {
@@ -21,18 +21,24 @@ export default {
       //input이 필요함 v-model연동
       username: '',
       password: '',
+      logMessage: '',
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       const userData = {
         username: this.username,
         password: this.password,
       };
 
-      //여기서 axios.post는 뭘까
-      //1. userData객체를 넘기고 loginUser만듬 api에 호출을 해야한느데
-      axios.post();
+      const { data } = await loginUser(userData);
+      console.log(data.user.username);
+      this.logMessage = `${data.user.username} 님 환영합니다.`;
+      this.initForm();
+    },
+    initForm() {
+      this.username = '';
+      this.password = '';
     },
   },
 };
