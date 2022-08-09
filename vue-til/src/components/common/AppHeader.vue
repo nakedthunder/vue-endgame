@@ -6,15 +6,29 @@
       </router-link>
     </div>
     <div class="navigations">
-      <span>{{ $store.state.username }}</span>
-      <router-link to="/login">로그인</router-link>
-      <router-link to="/signup">회원가입</router-link>
+      <!-- 로그인이 되었을때 직접적인 연결도 가능하나 computed를 통해 간결하게 만듬-->
+      <!-- <template v-if="$store.getters.isLogin"> -->
+      <template v-if="isUserLogin">
+        <span class="username">{{ $store.state.username }}</span>
+      </template>
+      <!-- 로그인이 되지않았을때 -->
+      <template>
+        <router-link to="/login">로그인</router-link>
+        <router-link to="/signup">회원가입</router-link>
+      </template>
     </div>
   </header>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    isUserLogin() {
+      //this.store가 vue인스턴스 연결되어있어서 this로 접근가능
+      return this.$store.getters.isLogin;
+    },
+  },
+};
 </script>
 
 <style scoped>
