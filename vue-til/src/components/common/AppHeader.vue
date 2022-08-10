@@ -10,6 +10,7 @@
       <!-- <template v-if="$store.getters.isLogin"> -->
       <template v-if="isUserLogin">
         <span class="username">{{ $store.state.username }}</span>
+        <a href="javascript:;" @click="logoutUser">Logout</a>
       </template>
       <!-- 로그인이 되지않았을때 -->
       <template>
@@ -26,6 +27,13 @@ export default {
     isUserLogin() {
       //this.store가 vue인스턴스 연결되어있어서 this로 접근가능
       return this.$store.getters.isLogin;
+    },
+  },
+  methods: {
+    logoutUser() {
+      //mutations 호출로 state.username = '';
+      this.$store.commit('clearUsername');
+      this.$router.push('/login');
     },
   },
 };

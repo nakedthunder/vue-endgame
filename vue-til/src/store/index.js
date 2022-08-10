@@ -17,5 +17,9 @@ export default new Vuex.Store({
     setUsername(state, username) {
       state.username = username;
     },
+    //로그아웃(=이름초기화)
+    clearUsername(state) {
+      state.username = '';
+    },
   },
 });
