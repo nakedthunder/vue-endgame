@@ -3,17 +3,18 @@
     <div>
       <router-link to="/" class="logo">
         TIL
+        <span v-if="isUserLogin">by {{ $store.state.username }}</span>
       </router-link>
     </div>
     <div class="navigations">
-      <!-- 로그인이 되었을때 직접적인 연결도 가능하나 computed를 통해 간결하게 만듬-->
-      <!-- <template v-if="$store.getters.isLogin"> -->
+      <!-- 1 -->
       <template v-if="isUserLogin">
-        <span class="username">{{ $store.state.username }}</span>
-        <a href="javascript:;" @click="logoutUser">Logout</a>
+        <a href="javascript:;" @click="logoutUser" class="logout-button">
+          Logout
+        </a>
       </template>
-      <!-- 로그인이 되지않았을때 -->
-      <template>
+      <!-- 2 -->
+      <template v-else>
         <router-link to="/login">로그인</router-link>
         <router-link to="/signup">회원가입</router-link>
       </template>
@@ -25,13 +26,11 @@
 export default {
   computed: {
     isUserLogin() {
-      //this.store가 vue인스턴스 연결되어있어서 this로 접근가능
       return this.$store.getters.isLogin;
     },
   },
   methods: {
     logoutUser() {
-      //mutations 호출로 state.username = '';
       this.$store.commit('clearUsername');
       this.$router.push('/login');
     },
@@ -40,6 +39,9 @@ export default {
 </script>
 
 <style scoped>
+.username {
+  color: white;
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -69,6 +71,9 @@ a.logo {
   position: fixed;
   top: 0;
   width: 100%;
+}
+.logout-button {
+  font-size: 14px;
 }
 a.router-link-exact-active {
   color: white;

@@ -56,15 +56,16 @@ export default {
           password: this.password,
         };
         const { data } = await loginUser(userData);
-        console.log(data.user.username);
+        console.log(data.token);
+        //store에 생성한 토큰을 추가
+        this.$store.commit('setToken', data.token);
         this.$store.commit('setUsername', data.user.username);
-        //$router.push()사용해 메인페이지로 이동
         this.$router.push('/main');
-        // this.logMessage = `${data.user.username} 님 환영합니다`
       } catch (error) {
         // 에러 핸들링할 코드
         console.log(error.response.data);
         this.logMessage = error.response.data;
+        // this.initForm();
       } finally {
         this.initForm();
       }
